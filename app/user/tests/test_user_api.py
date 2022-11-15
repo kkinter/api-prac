@@ -14,7 +14,7 @@ CREATE_USER_URL = reverse('user:create')
 
 def create_user(**params):
     """Create and return a new user."""
-    return get_user_model().objects.creaet_user(**params)
+    return get_user_model().objects.create_user(**params)
 
 
 class PublicUserApiTests(TestCase):
@@ -26,21 +26,21 @@ class PublicUserApiTests(TestCase):
     def test_create_user_success(self):
         """Test Creating a user is successful."""
         payload = {
-            'email': 'test@example.com',
-            'passowrd': 'testpass123',
+            'email': 'test2@example.com',
+            'password': 'testpass123',
             'name': 'Test Name',
         }
         res = self.client.post(CREATE_USER_URL, payload)
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         user = get_user_model().objects.get(email=payload['email'])
-        self.assertTrue(user.check_password(payload['passowrd']))
+        self.assertTrue(user.check_password(payload['password']))
         self.assertNotIn('password', res.data)
 
     def test_user_with_email_exists_error(self):
         """Test error returned if user with email exists."""
         payload = {
-            'email': 'test@example.com',
+            'email': 'test2@example.com',
             'password': 'testpass123',
             'name': 'Test Name',
         }
