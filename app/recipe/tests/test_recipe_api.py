@@ -15,7 +15,7 @@ from core.models import Recipe
 from recipe.serializers import RecipeSerializer
 
 
-RECIPES_URL = reverse('recipe-recipe-list')
+RECIPES_URL = reverse('recipe:recipe-list')
 
 
 def create_recipe(user, **params):
@@ -51,7 +51,7 @@ class PrivateRecipeAPITests(TestCase):
 
     def setUp(self):
         self.client = APIClient()
-        self.user = get_user_model().object.create_user(
+        self.user = get_user_model().objects.create_user(
             'user@example.com',
             'testpass123',
         )
@@ -71,7 +71,7 @@ class PrivateRecipeAPITests(TestCase):
 
     def test_recipe_list_limited_to_user(self):
         """Test list of recipes is limited to authenticated user."""
-        other_user = get_user_model().objects.create(
+        other_user = get_user_model().objects.create_user(
             'other@example.com',
             'password123',
         )
